@@ -1,0 +1,142 @@
+# *******************************************************************************
+# Copyright (c) 2013 Tippett Studio. All rights reserved.
+# $Id$
+#*******************************************************************************
+
+import os
+import pymel.core as pm
+import maya.cmds as cmds
+# core modulesnode
+from tip.maya.studio.core import naming
+from tip.maya.studio.core import dbAsset
+from tip.maya.puppet.rigging.builderLogger import CreatureLogger
+
+# core builder
+from tip.maya.puppet.rigging import attach
+
+# creature
+from tip.maya.puppet.puptypes.build import Build
+from tip.maya.puppet.puptypes.creature import Creature
+from tip.maya.puppet.puptypes.anim import Anim
+
+TS_SHOW = 'log'
+CREATURE_ASSET = 'merprince'
+CREATURE_ASSET_CC = naming.formatNameBit(CREATURE_ASSET)
+
+# this sets up the default logger print format
+logger = CreatureLogger()
+
+# USER LOGIN ACESS - need to make a user env variable
+USER = os.getlogin()
+
+# work directory (created procedurally based on user env)
+WORK_DIR = '/show/%s/pup/%s/work/build' % (TS_SHOW, USER)
+
+class AllBuilder(object):
+    ''' Builds all rig objects '''
+
+    def __init__(self,
+                 show=None,
+                 creature=None,
+                 build=False,
+                 animFiles=None,
+                 deleteLists=None):
+
+        self.workPath = WORK_DIR
+
+        # make path if it doesn't exist
+        if not os.path.isdir(self.workPath):
+            try:
+                os.makedirs(self.workPath)
+            except OSError as exc:
+                if exc.errno == errno.EEXIST:
+                    pass
+                else: raise
+
+        ## change this to wc
+        if not show:
+            show = TS_SHOW
+        if not creature:
+            creature = CREATURE_ASSET
+
+        # names of files and creature assets
+        self.buildFileName = '%s.anim.mb' % creature
+        self.buildName = '%s%sAnimCreature_1' % (show, naming.formatNameBit(creature))
+
+        self.saveBuild()
+
+        if build:
+            self.build()
+
+        if animFiles:
+            for i, anim in enumerate(animFiles):
+                topNode = '%s%s%sCreature_1' % (show, naming.formatNameBit(creature), anim.title())
+                fileName = '%s.%s.mb' % (creature, anim)
+                self.buildOthers(anim, topNode, fileName, deleteLists[i])
+
+    def buildOthers(self, anim, topNode, fileName, deleteList):
+        # open new file
+        cmds.file(new=True, f=True)
+
+        # import anim
+        f = "%s/%s" % (self.workPath, self.buildFileName)
+        cmds.file(f, i=True)
+
+        self.otherAnim = Anim(self.buildName)
+
+        # rename topnode
+        pm.rename(self.buildName, topNode)
+
+        # switch anim to animLite dbAttr
+        asset = dbAsset.TipDbAsset(topNode)
+        asset.set(dbElem=anim)
+        asset.incrementRevision()
+
+        for item in deleteList:
+            if pm.objExists(item):
+                pm.delete(item)
+
+        pm.select(topNode, r=True)
+
+        # export result
+        f = "%s/%s" % (self.workPath, fileName)
+        cmds.file(rename=f)
+        cmds.file(type='mayaBinary', exportSelected=True, pr=True, f=True)
+
+    def saveBuild(self):
+        ''' save your current scene as a template to your build directory '''
+
+        # increment revision
+        asset = dbAsset.TipDbAsset(self.buildName)
+        asset.incrementRevision()
+        # export template to location
+        f = "%s/%s" % (self.workPath, self.buildFileName)
+        cmds.file(rename=f)
+        cmds.file(save=True, type='mayaBinary', pr=True, f=True)
+
+    def build(self):
+        ''' build rig, and save it out '''
+
+        # open new file
+        cmds.file(new=True, f=True)
+
+        # import base build
+        f = "%s/%s" % (self.workPath, self.buildFileName)
+        cmds.file(f, i=True)
+
+        #run anim builder219
+        self.build = Quadruped(node=self.buildName)
+
+        # increment revision
+        asset = dbAsset.TipDbAsset(self.buildName)
+        asset.incrementRevision()
+
+        pm.select(self.buildName)
+
+        # export result
+        f = "%s/%s" % (self.workPath, self.buildFileName)
+        cmds.file(rename=f)
+        cmds.file(type='mayaBinary', exportSelected=True, pr=True, f=True)
+
+    def monkey(self):
+        print 'monkey'

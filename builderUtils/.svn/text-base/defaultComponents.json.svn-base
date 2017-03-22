@@ -1,0 +1,315 @@
+{
+    "spine": {
+        "compType" : "SpineComponent",
+        "component": {
+            "startJoint": "spineJA_bnd",
+            "name": "spine",
+            "endList": [
+                "pelvisJA_bnd",
+                "clavicleJALf_bnd",
+                "clavicleJARt_bnd",
+                "neckJA_bnd"
+            ],
+            "controlScale": 1.2,
+            "controlOffset": 1,
+            "controlIndex": [0, 2, 4],
+            "controlShapes": [
+                "hipShape",
+                "splitShape",
+                "chestShape"
+            ]
+        },
+        "hier": {
+            "rootGroup": true,
+            "localGroup": true,
+            "worldGroup": true,
+            "localPosition": true
+        },
+        "attach": {
+            "prefix": "spine",
+            "point": true,
+            "orient": true,
+            "scale": false,
+            "attachPoint": "allScaleNSoc_bnd",
+            "attachOrient": "allScaleNSoc_bnd",
+            "attachScale": false,
+            "multiAttr": true,
+            "switch": true
+        }
+    },
+    "ikNeck": {
+        "compType" : "NeckIkComponent",
+        "component": {
+            "startJoint": "neckJA_bnd",
+            "name": "neck",
+            "endList": [
+                "eyeJARt_bnd",
+                "eyeJALf_bnd",
+                "eyeFollowJA_bnd"]
+        },
+        "hier": {
+            "rootGroup": true,
+            "localGroup": true,
+            "worldGroup": false,
+            "localPosition": true
+        },
+        "attach": {
+            "config": "followControl_1",
+            "point": true,
+            "orient": true,
+            "scale": false,
+            "attachPoint": "spineE_1",
+            "attachOrient": true,
+            "attachScale": false,
+            "multiAttr": true,
+            "switch": false
+        }
+    },
+    "face": {
+        "compType" : "FaceComponent",
+        "component": {
+            "startJoint": "headJA_bnd",
+            "name": "face",
+            "nodeList": [
+                "faceTopLf_bnd",
+                "faceTopRt_bnd",
+                "faceMidLf_bnd",
+                "faceMidRt_bnd",
+                "faceBotLf_bnd",
+                "faceBotRt_bnd",
+                "faceSplit_bnd"
+            ]
+        },
+        "hier": {
+            "rootGroup": true,
+            "localGroup": true,
+            "worldGroup": false,
+            "localPosition": true
+        },
+        "attach": {
+            "drivers": ["headJA_1"],
+            "labels": ["head"],
+            "config": "followControl_1",
+            "point": true,
+            "orient": true,
+            "scale": false,
+            "attachPoint": true,
+            "attachOrient": true,
+            "attachScale": false,
+            "multiAttr": true,
+            "switch": false
+        }
+    },
+    "eye": {
+        "compType" : "AimComponent",
+        "component": {
+            "startJoint": "eyeFollowBaseJA_bnd",
+            "name": "eye",
+            "endList": [
+                "eyeSocketJALf_1",
+                "eyeSocketJARt_1"
+            ],
+            "aimJoints": [
+                "eyeSocketJALf_1",
+                "eyeSocketJARt_1"
+            ],
+            "aimSockets": [
+                "eyeJALf_bnd",
+                "eyeJARt_bnd"
+            ],
+            "controlOffset": 0,
+            "controlScale": 1,
+            "style": "eye"
+        },
+        "hier": {
+            "rootGroup": true,
+            "localGroup": true,
+            "worldGroup": false,
+            "localPosition": true
+        },
+        "attach": {
+            "drivers": ["headJA_1"],
+            "labels": ["head"],
+            "config": "followControl_1",
+            "point": true,
+            "orient": true,
+            "scale": false,
+            "attachPoint": true,
+            "attachOrient": true,
+            "attachScale": false,
+            "multiAttr": true,
+            "switch": false
+        }
+    },
+    "handLf": {
+        "compType" : "FKComponent",
+        "component": {
+            "startJoint": "handJALf_bnd",
+            "name": "hand",
+            "side": "left"
+        },
+        "hier": {
+            "rootGroup": true,
+            "localGroup": true,
+            "worldGroup": false,
+            "localPosition": true
+        },
+        "attach": {
+            "drivers": ["armJEndLf_1"],
+            "labels": ["arm"],
+            "config": "followControl_1",
+            "prefix": "handLf",
+            "point": true,
+            "orient": true,
+            "scale": false,
+            "attachPoint": true,
+            "attachOrient": false,
+            "attachScale": false,
+            "multiAttr": true,
+            "switch": true
+        }
+    },
+    "handRt": {
+        "compType" : "FKComponent",
+        "component": {
+            "startJoint": "handJARt_bnd",
+            "name": "hand",
+            "side": "right"
+        },
+        "hier": {
+            "rootGroup": true,
+            "localGroup": true,
+            "worldGroup": false,
+            "localPosition": true
+        },
+        "attach": {
+            "drivers": ["armJEndRt_1"],
+            "labels": ["arm"],
+            "config": "followControl_1",
+            "prefix": "handRt",
+            "point": true,
+            "orient": true,
+            "scale": false,
+            "attachPoint": true,
+            "attachOrient": false,
+            "attachScale": false,
+            "multiAttr": true,
+            "switch": true
+        }
+    },
+    "pelvis": {
+        "compType" : "FKComponent",
+        "component": {
+            "startJoint": "pelvisJA_bnd",
+            "name": "pelvis",
+            "endList": [
+                "legJALf_bnd",
+                "legJARt_bnd",
+                "tailJA_bnd"
+            ]
+        },
+        "hier": {
+            "rootGroup": true,
+            "localGroup": true,
+            "worldGroup": false,
+            "localPosition": true
+        },
+        "attach": {
+            "drivers": ["spineA_1"],
+            "labels": ["spineA"],
+            "config": "followControl_1",
+            "prefix": "pelvis",
+            "point": true,
+            "orient": true,
+            "scale": false,
+            "attachPoint": true,
+            "attachOrient": false,
+            "attachScale": false,
+            "multiAttr": true,
+            "switch": true
+        }
+    },
+    "footLf": {
+        "compType" : "FKComponent",
+        "component": {
+            "startJoint": "footJALf_bnd",
+            "name": "foot",
+            "side": "left"
+        },
+        "hier": {
+            "rootGroup": true,
+            "localGroup": true,
+            "worldGroup": false,
+            "localPosition": true
+        },
+        "attach": {
+            "drivers": ["legJEndLf_1"],
+            "labels": ["leg"],
+            "config": "followControl_1",
+            "prefix": "legLf",
+            "point": true,
+            "orient": true,
+            "scale": false,
+            "attachPoint": true,
+            "attachOrient": false,
+            "attachScale": false,
+            "multiAttr": true,
+            "switch": true
+        }
+    },
+    "footRt": {
+        "compType" : "FKComponent",
+        "component": {
+            "startJoint": "footJARt_bnd",
+            "name": "foot",
+            "side": "right"
+        },
+        "hier": {
+            "rootGroup": true,
+            "localGroup": true,
+            "worldGroup": false,
+            "localPosition": true
+        },
+        "attach": {
+            "drivers": ["legJEndRt_1"],
+            "labels": ["leg"],
+            "config": "followControl_1",
+            "prefix": "legRt",
+            "point": true,
+            "orient": true,
+            "scale": false,
+            "attachPoint": true,
+            "attachOrient": false,
+            "attachScale": false,
+            "multiAttr": true,
+            "switch": true
+        }
+    },
+    "tail": {
+        "compType" : "SplineComponent",
+        "component": {
+            "startJoint": "tailJA_bnd",
+            "name": "tail"
+        },
+        "hier": {
+            "rootGroup": true,
+            "localGroup": true,
+            "worldGroup": false,
+            "localPosition": true
+        },
+        "attach": {
+            "drivers": ["pelvisJA_1"],
+            "labels": ["pelvis"],
+            "config": "followControl_1",
+            "prefix": "tail",
+            "point": true,
+            "orient": true,
+            "scale": false,
+            "attachPoint": true,
+            "attachOrient": true,
+            "attachScale": false,
+            "multiAttr": true,
+            "switch": true
+        }
+    }
+}

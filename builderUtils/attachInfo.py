@@ -1,0 +1,173 @@
+#*******************************************************************************
+# Copyright (c) 2017 Tippett Studio. All rights reserved.
+# $Id: attachInfo.py 52150 2017-03-09 20:36:19Z marissa $
+#*******************************************************************************
+
+import json
+
+'''this module will be used in maya and katana, so no maya-specific stuff in here
+in particular reading and writing maya attributes
+'''
+
+#############################################
+
+'''strategies for storing attach information for each component
+
+mesh is the shape node in maya, a mesh location in katana
+
+grandparent: traditional face set locations
+parent: maya transform of mesh'''
+
+GUIDE_ROOT_LOCATIONS = ['grandparent', 'parent']
+
+
+#############################################
+
+class AttachInfo(object):
+    '''per-mesh info for furator
+
+    currently:
+        a list of guide types
+        how to find related guides in a hierarchy
+    '''
+
+    def __init__(self):
+        # strings for each curve type
+        self.curveTypes = set()
+
+        # one of the above guideRootLocations
+        # TODO: relative path
+        self.attach = False
+        self.driven = ''
+        self.drivers = list()
+        self.labels = list()
+        self.prefix = ''
+        self.point = True
+        self.orient = True
+        self.scale = False
+        self.switch = True
+        self.multiAttr = True
+        self.config = ''
+        self.attachPoint = True
+        self.attachOrient = True
+        self.attachScale = False
+
+
+    def toJson(self):
+        ''''''
+
+        jsonStruct = dict()
+        jsonStruct['attach'] = self.attach
+        jsonStruct['driven'] = self.driven
+        jsonStruct['drivers'] = self.drivers
+        jsonStruct['labels'] = self.labels
+        jsonStruct['prefix'] = self.prefix
+        jsonStruct['point'] = self.point
+        jsonStruct['orient'] = self.orient
+        jsonStruct['scale'] = self.scale
+        jsonStruct['switch'] = self.switch
+        jsonStruct['multiAttr'] = self.multiAttr
+        jsonStruct['config'] = self.config
+        jsonStruct['attachPoint'] = self.attachPoint
+        jsonStruct['attachOrient'] = self.attachOrient
+        jsonStruct['attachScale'] = self.attachScale
+
+        return json.dumps(jsonStruct)
+
+    def fromJson(self, s):
+        '''read from JSON string
+
+        some validation'''
+        jsonStruct = json.loads(s)
+        if 'attach' in jsonStruct:
+            self.attach = jsonStruct['attach']
+        if 'driven' in jsonStruct:
+            self.driven = jsonStruct['driven']
+        if 'drivers' in jsonStruct:
+            self.drivers = jsonStruct['drivers']
+        if 'labels' in jsonStruct:
+            self.labels in jsonStruct['labels']
+        if 'prefix' in jsonStruct:
+            self.prefix = jsonStruct['prefix']
+        if 'point' in jsonStruct:
+            self.point = jsonStruct['point']
+        if 'orient' in jsonStruct:
+            self.orient = jsonStruct['orient']
+        if 'scale' in jsonStruct:
+            self.scale = jsonStruct['scale']
+        if 'switch' in jsonStruct:
+            self.switch = jsonStruct['switch']
+        if 'multiAttr' in jsonStruct:
+            self.multiAttr = jsonStruct['multiAttr']
+        if 'config' in jsonStruct:
+            self.config = jsonStruct['config']
+        if 'attachPoint' in jsonStruct:
+            self.attachPoint = jsonStruct['attachPoint']
+        if 'attachOrient' in jsonStruct:
+            self.attachOrient = jsonStruct['attachOrient']
+        if 'attachScale' in jsonStruct:
+            self.attachScale = jsonStruct['attachScale']
+
+    def setAttachValues(self, attach=None,
+                        driven=None,
+                        drivers=None,
+                        labels=None,
+                        prefix=None,
+                        point=None,
+                        orient=None,
+                        scale=None,
+                        switch=None,
+                        multiAttr=None,
+                        config=None,
+                        attachPoint=None,
+                        attachOrient=None,
+                        attachScale=None):
+        ''''''
+
+        if attach:
+            self.attach = attach
+        if driven:
+            self.driven = driven
+        if drivers:
+            self.drivers = drivers
+        if labels:
+            self.labels = labels
+        if prefix:
+            self.prefix = prefix
+        if point:
+            self.point = point
+        if orient:
+            self.orient = orient
+        if scale:
+            self.scale = scale
+        if switch:
+            self.switch = switch
+        if multiAttr:
+            self.multiAttr = multiAttr
+        if config:
+            self.config = config
+        if attachPoint:
+            self.attachPoint = attachPoint
+        if attachOrient:
+            self.attachOrient = attachOrient
+        if attachScale:
+            self.attachScale = attachScale
+
+    def getAttachDict(self):
+        ''''''
+
+        attachDict = {'attach': self.attach,
+                      'driven': self.driven,
+                      'drivers': self.drivers,
+                      'labels': self.labels,
+                      'prefix': self.prefix,
+                      'point': self.point,
+                      'orient': self.orient,
+                      'scale': self.scale,
+                      'switch': self.switch,
+                      'multiAttr': self.multiAttr,
+                      'config': self.config,
+                      'attachPoint': self.attachPoint,
+                      'attachOrient': self.attachOrient,
+                      'attachScale': self.attachScale}
+        return attachDict

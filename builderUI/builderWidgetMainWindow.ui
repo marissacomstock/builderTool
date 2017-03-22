@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>635</width>
+    <height>230</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>635</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuNew_Builder_Script">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="loadBuilder_menu">
+     <property name="title">
+      <string>Load Builder</string>
+     </property>
+     <addaction name="loadFromFile_menu"/>
+     <addaction name="loadFromPuppet_menu"/>
+    </widget>
+    <widget class="QMenu" name="clearBuilder_menu">
+     <property name="title">
+      <string>Clear Builder</string>
+     </property>
+     <addaction name="clearWindow_menu"/>
+     <addaction name="clearPuppet_menu"/>
+    </widget>
+    <addaction name="loadBuilder_menu"/>
+    <addaction name="clearBuilder_menu"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionHelpOnUsage"/>
+    <addaction name="separator"/>
+    <addaction name="actionTipWeb"/>
+    <addaction name="actionTipWiki"/>
+    <addaction name="actionTipSite"/>
+   </widget>
+   <addaction name="menuNew_Builder_Script"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionNewBuilder">
+   <property name="text">
+    <string>Clear Builder From Puppet</string>
+   </property>
+  </action>
+  <action name="actionOpenBuilder">
+   <property name="text">
+    <string>Load Builder From Puppet</string>
+   </property>
+  </action>
+  <action name="actionRefresh">
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </action>
+  <action name="actionHelpOnUsage">
+   <property name="text">
+    <string>Help on Usage</string>
+   </property>
+  </action>
+  <action name="actionTipWeb">
+   <property name="text">
+    <string>Tippett: Web</string>
+   </property>
+  </action>
+  <action name="actionTipWiki">
+   <property name="text">
+    <string>Tippett: Wiki</string>
+   </property>
+  </action>
+  <action name="actionTipSite">
+   <property name="text">
+    <string>Tippett: Home</string>
+   </property>
+  </action>
+  <action name="loadFromFile_menu">
+   <property name="text">
+    <string>From File</string>
+   </property>
+  </action>
+  <action name="loadFromPuppet_menu">
+   <property name="text">
+    <string>From Puppet</string>
+   </property>
+  </action>
+  <action name="clearWindow_menu">
+   <property name="text">
+    <string>Clear Window</string>
+   </property>
+  </action>
+  <action name="clearPuppet_menu">
+   <property name="text">
+    <string>Clear Puppet</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
